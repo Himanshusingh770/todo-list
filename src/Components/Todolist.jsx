@@ -26,12 +26,20 @@ const Todolist = () => {
     setTodos([...todos, newTask]); // Add new todo to the list
   };
 
+  // Update a todo task
+  const handleUpdate = (id, updatedTask) => {
+    const updatedTodos = todos.map((todo) =>
+      todo.id === id ? { ...todo, task: updatedTask } : todo
+    );
+    setTodos(updatedTodos);
+  };
+
   return (
     <div className="container mt-5">
       <h1>Todo List</h1>
       <ul className="list-group">
         {todos.map((todo) => (
-          <TodoItem key={todo.id} todo={todo} handleCheck={handleCheck} />
+          <TodoItem key={todo.id} todo={todo} handleCheck={handleCheck} handleUpdate={handleUpdate} />
         ))}
       </ul>
 
