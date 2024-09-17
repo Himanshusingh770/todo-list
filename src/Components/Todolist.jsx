@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import todosData from './todosData.json';
 import TodoItem from './TodoItem';
+import AddTodo from './AddTodo'; // Import the new AddTodo component
 
 const Todolist = () => {
   // Use state to manage the todos
@@ -14,6 +15,17 @@ const Todolist = () => {
     setTodos(updatedTodos);
   };
 
+  // Add a new todo to the list
+  const addTodo = (task) => {
+    const newTask = {
+      id: todos.length + 1, // generate a new id
+      task: task,
+      completed: false
+    };
+
+    setTodos([...todos, newTask]); // Add new todo to the list
+  };
+
   return (
     <div className="container mt-5">
       <h1>Todo List</h1>
@@ -22,6 +34,9 @@ const Todolist = () => {
           <TodoItem key={todo.id} todo={todo} handleCheck={handleCheck} />
         ))}
       </ul>
+
+      {/* Add Todo Section */}
+      <AddTodo addTodo={addTodo} /> {/* Import the AddTodo component */}
     </div>
   );
 };
