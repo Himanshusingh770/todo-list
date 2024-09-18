@@ -34,6 +34,13 @@ const AddTodo = ({ addOrUpdateTodo, todoToEdit, cancelEdit }) => {
     setNewTodo(''); // Clear input field after adding/updating
   };
 
+  // Cancel edit mode and reset error
+  const handleCancel = () => {
+    setInputError(false); // Clear the error when canceling the edit
+    setNewTodo(''); // Clear the input field
+    cancelEdit(); // Call the cancel function passed down from parent
+  };
+
   return (
     <div className="mt-4">
       <h3>{todoToEdit ? 'Edit Todo' : 'Add Todo'}</h3>
@@ -54,7 +61,7 @@ const AddTodo = ({ addOrUpdateTodo, todoToEdit, cancelEdit }) => {
             <button
               type="button"
               className="btn btn-secondary"
-              onClick={cancelEdit} // Call the cancel function when clicked
+              onClick={handleCancel} // Call the cancel function when clicked
             >
               Cancel
             </button>
