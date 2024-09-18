@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 
-const AddTodo = ({ addOrUpdateTodo, todoToEdit, cancelEdit }) => {
+const AddTodo = ({ addOrUpdateTodo, EditTodo, cancelEdit }) => {
   const [newTodo, setNewTodo] = useState('');
   const [inputError, setInputError] = useState(false);
 
   // Effect to load the todo to be edited into the input field
   useEffect(() => {
-    if (todoToEdit) {
-      setNewTodo(todoToEdit.task); // Pre-fill the input with the selected task
+    if (EditTodo) {
+      setNewTodo(EditTodo.task); // Pre-fill the input with the selected task
       setInputError(false); // Clear the error when starting to edit
     } else {
       setNewTodo(''); // Clear the input field if there's no todo to edit
     }
-  }, [todoToEdit]);
+  }, [EditTodo]);
 
   // Handle input change
   const handleInputChange = (e) => {
@@ -43,7 +43,7 @@ const AddTodo = ({ addOrUpdateTodo, todoToEdit, cancelEdit }) => {
 
   return (
     <div className="mt-4">
-      <h3>{todoToEdit ? 'Edit Todo' : 'Add Todo'}</h3>
+      <h3>{EditTodo ? 'Edit Todo' : 'Add Todo'}</h3>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -55,9 +55,9 @@ const AddTodo = ({ addOrUpdateTodo, todoToEdit, cancelEdit }) => {
         {inputError && <div className="invalid-feedback">Task cannot be empty</div>}
         <div className="mt-2">
           <button type="submit" className="btn btn-primary me-2">
-            {todoToEdit ? 'Save Changes' : 'Submit'}
+            {EditTodo ? 'Save Changes' : 'Submit'}
           </button>
-          {todoToEdit && (
+          {EditTodo && (
             <button
               type="button"
               className="btn btn-secondary"
