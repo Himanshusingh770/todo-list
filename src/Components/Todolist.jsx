@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import todosData from './todosData.json';
 import TodoItem from './TodoItem';
-import AddTodo from './AddTodo'; // Import the new AddTodo component
+import AddTodo from './AddTodo';
 
 const Todolist = () => {
-  // Use state to manage the todos
   const [todos, setTodos] = useState(todosData);
+  const [todoToEdit, setTodoToEdit] = useState(null); // Track the todo to be edited
 
-  // Handle the checkbox change event to mark tasks as completed
+  // Handle checkbox change to mark tasks as completed
   const handleCheck = (id) => {
     const updatedTodos = todos.map((todo) =>
       todo.id === id ? { ...todo, completed: !todo.completed } : todo
@@ -15,23 +15,29 @@ const Todolist = () => {
     setTodos(updatedTodos);
   };
 
-  // Add a new todo to the list
-  const addTodo = (task) => {
-    const newTask = {
-      id: todos.length + 1, // generate a new id
-      task: task,
-      completed: false
-    };
-
-    setTodos([...todos, newTask]); // Add new todo to the list
+  // Add a new todo to the list or update the existing one
+  const addOrUpdateTodo = (task) => {
+    if (todoToEdit) {
+      // Update existing todo
+      const updatedTodos = todos.map((todo) =>
+        todo.id === todoToEdit.id ? { ...todo, task: task } : todo
+      );
+      setTodos(updatedTodos);
+      setTodoToEdit(null); // Clear the edit mode
+    } else {
+      // Add new todo
+      const newTask = {
+        id: todos.length + 1,
+        task: task,
+        completed: false,
+      };
+      setTodos([...todos, newTask]);
+    }
   };
 
-  // Update a todo task
-  const handleUpdate = (id, updatedTask) => {
-    const updatedTodos = todos.map((todo) =>
-      todo.id === id ? { ...todo, task: updatedTask } : todo
-    );
-    setTodos(updatedTodos);
+  // Set the selected todo for editing
+  const handleEdit = (todo) => {
+    setTodoToEdit(todo); // Pass the todo to the AddTodo form
   };
 
   return (
@@ -39,12 +45,17 @@ const Todolist = () => {
       <h1>Todo List</h1>
       <ul className="list-group">
         {todos.map((todo) => (
-          <TodoItem key={todo.id} todo={todo} handleCheck={handleCheck} handleUpdate={handleUpdate} />
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            handleCheck={handleCheck}
+            handleEdit={handleEdit}
+          />
         ))}
       </ul>
 
-      {/* Add Todo Section */}
-      <AddTodo addTodo={addTodo} /> {/* Import the AddTodo component */}
+      {/* Add Todo / Edit Todo Section */}
+      <AddTodo addOrUpdateTodo={addOrUpdateTodo} todoToEdit={todoToEdit} />
     </div>
   );
 };
