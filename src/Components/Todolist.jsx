@@ -3,7 +3,7 @@ import todosData from './todosData.json';
 import TodoItem from './TodoItem';
 import AddTodo from './AddTodo';
 
-const Todolist = () => {
+const TodoList = () => {
   const [todos, setTodos] = useState(todosData);
   const [todoToEdit, setTodoToEdit] = useState(null); // Track the todo to be edited
 
@@ -40,6 +40,11 @@ const Todolist = () => {
     setTodoToEdit(todo); // Pass the todo to the AddTodo form
   };
 
+  // Cancel the edit mode
+  const cancelEdit = () => {
+    setTodoToEdit(null); // Clear the edit mode and reset the form
+  };
+
   return (
     <div className="container mt-5">
       <h1>Todo List</h1>
@@ -55,9 +60,13 @@ const Todolist = () => {
       </ul>
 
       {/* Add Todo / Edit Todo Section */}
-      <AddTodo addOrUpdateTodo={addOrUpdateTodo} todoToEdit={todoToEdit} />
+      <AddTodo
+        addOrUpdateTodo={addOrUpdateTodo}
+        todoToEdit={todoToEdit}
+        cancelEdit={cancelEdit} // Pass the cancel function to the AddTodo component
+      />
     </div>
   );
 };
 
-export default Todolist;
+export default TodoList;

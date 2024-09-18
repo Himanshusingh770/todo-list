@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const AddTodo = ({ addOrUpdateTodo, todoToEdit }) => {
+const AddTodo = ({ addOrUpdateTodo, todoToEdit, cancelEdit }) => {
   const [newTodo, setNewTodo] = useState('');
   const [inputError, setInputError] = useState(false);
 
@@ -8,6 +8,9 @@ const AddTodo = ({ addOrUpdateTodo, todoToEdit }) => {
   useEffect(() => {
     if (todoToEdit) {
       setNewTodo(todoToEdit.task); // Pre-fill the input with the selected task
+      setInputError(false); // Clear the error when starting to edit
+    } else {
+      setNewTodo(''); // Clear the input field if there's no todo to edit
     }
   }, [todoToEdit]);
 
@@ -43,9 +46,20 @@ const AddTodo = ({ addOrUpdateTodo, todoToEdit }) => {
           onChange={handleInputChange}
         />
         {inputError && <div className="invalid-feedback">Task cannot be empty</div>}
-        <button type="submit" className="btn btn-primary mt-2">
-          {todoToEdit ? 'Save Changes' : 'Submit'}
-        </button>
+        <div className="mt-2">
+          <button type="submit" className="btn btn-primary me-2">
+            {todoToEdit ? 'Save Changes' : 'Submit'}
+          </button>
+          {todoToEdit && (
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={cancelEdit} // Call the cancel function when clicked
+            >
+              Cancel
+            </button>
+          )}
+        </div>
       </form>
     </div>
   );
