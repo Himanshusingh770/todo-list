@@ -5,7 +5,7 @@ import AddTodo from './AddTodo';
 
 const TodoList = () => {
   const [todos, setTodos] = useState(todosData);
-  const [EditTodo, setEditTodo] = useState(null); // Track the todo to be edited
+  const [editTodo, seteditTodo] = useState(null); // Track the todo to be edited
 
   // Handle checkbox change to mark tasks as completed
   const handleCheck = (id) => {
@@ -17,13 +17,13 @@ const TodoList = () => {
 
   // Add a new todo to the list or update the existing one
   const addOrUpdateTodo = (task) => {
-    if (EditTodo) {
+    if (editTodo) {
       // Update existing todo
       const updatedTodos = todos.map((todo) =>
-        todo.id === EditTodo.id ? { ...todo, task: task } : todo
+        todo.id === editTodo.id ? { ...todo, task: task } : todo
       );
       setTodos(updatedTodos);
-      setEditTodo(null); // Clear the edit mode
+      seteditTodo(null); // Clear the edit mode
     } else {
       // Add new todo
       const newTask = {
@@ -37,12 +37,12 @@ const TodoList = () => {
 
   // Set the selected todo for editing
   const handleEdit = (todo) => {
-    setEditTodo(todo); // Pass the todo to the AddTodo form
+    seteditTodo(todo); // Pass the todo to the AddTodo form
   };
 
   // Cancel the edit mode
   const cancelEdit = () => {
-    setEditTodo(null); // Clear the edit mode and reset the form
+    seteditTodo(null); // Clear the edit mode and reset the form
   };
 
   return (
@@ -62,7 +62,7 @@ const TodoList = () => {
       {/* Add Todo / Edit Todo Section */}
       <AddTodo
         addOrUpdateTodo={addOrUpdateTodo}
-        EditTodo={EditTodo}
+        editTodo={editTodo}
         cancelEdit={cancelEdit} // Pass the cancel function to the AddTodo component
       />
     </div>
